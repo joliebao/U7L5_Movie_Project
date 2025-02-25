@@ -1,3 +1,5 @@
+import org.w3c.dom.ls.LSOutput;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -122,18 +124,7 @@ public class MovieCollection
             System.out.println("" + choiceNum + ". " + title);
         }
 
-        System.out.println("Which movie would you like to learn more about?");
-        System.out.print("Enter number: ");
-
-        int choice = scanner.nextInt();
-        scanner.nextLine();
-
-        Movie selectedMovie = results.get(choice - 1);
-
-        displayMovieInfo(selectedMovie);
-
-        System.out.println("\n ** Press Enter to Return to Main Menu **");
-        scanner.nextLine();
+        returnMovies(results);
     }
 
     private void sortResults(ArrayList<Movie> listToSort)
@@ -189,6 +180,7 @@ public class MovieCollection
             System.out.println(i+1 + ". " + actors.get(i));
         }
 
+        System.out.println();
         System.out.println("Which actor would you like to see?");
         System.out.print("Enter number: ");
 
@@ -197,25 +189,59 @@ public class MovieCollection
 
         String actor = actors.get(choice - 1);
 
-        ArrayList<String> results = new ArrayList<String>();
+        ArrayList<Movie> results = new ArrayList<Movie>();
         for (Movie m : movies){
             if (m.getCast().contains(actor)) {
-                results.add(m.getTitle());
+                results.add(m);
             }
         }
 
+        for (int i = 0; i < results.size(); i++){
+            System.out.println((i+1) + ". " + results.get(i).getTitle());
+        }
 
-//        Movie selectedMovie = results.get(choice - 1);
-//
-//        displayMovieInfo(selectedMovie);
-//
-        System.out.println("\n ** Press Enter to Return to Main Menu **");
-        scanner.nextLine();
+        returnMovies(results);
     }
 
     private void searchKeywords()
     {
+        System.out.print("Enter a keyword search term: ");
+        String searchTerm = scanner.nextLine();
 
+        // prevent case sensitivity
+        searchTerm = searchTerm.toLowerCase();
+
+        // arraylist to hold search results
+        ArrayList<Movie> results = new ArrayList<Movie>();
+
+        // search through ALL movies in collection
+        for (int i = 0; i < movies.size(); i++)
+        {
+            String keyword = (movies.get(i).getKeywords()).toLowerCase();
+
+            if (keyword.contains(searchTerm))
+            {
+                //add the Movie object to the results list
+                results.add(movies.get(i));
+            }
+        }
+
+        // sort the results by title
+        sortResults(results);
+
+        System.out.println();
+        // now, display them all to the user
+        for (int i = 0; i < results.size(); i++)
+        {
+            String title = results.get(i).getTitle();
+
+            // this will print index 0 as choice 1 in the results list; better for user!
+            int choiceNum = i + 1;
+
+            System.out.println("" + choiceNum + ". " + title);
+        }
+
+        returnMovies(results);
     }
 
     private void listGenres()
@@ -231,6 +257,22 @@ public class MovieCollection
     private void listHighestRevenue()
     {
 
+    }
+
+    private void returnMovies(ArrayList<Movie> results){
+        System.out.println();
+        System.out.println("Which movie would you like to learn more about?");
+        System.out.print("Enter number: ");
+
+        int choice = scanner.nextInt();
+        scanner.nextLine();
+
+        Movie selectedMovie = results.get(choice - 1);
+
+        displayMovieInfo(selectedMovie);
+
+        System.out.println("\n ** Press Enter to Return to Main Menu **");
+        scanner.nextLine();
     }
 
     private void importMovieList(String fileName)
