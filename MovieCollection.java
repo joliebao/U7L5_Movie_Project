@@ -246,7 +246,17 @@ public class MovieCollection
 
     private void listGenres()
     {
+        // Getting list of genres from the movie collection
+        ArrayList<String> genres = new ArrayList<String>(); // new arraylist
+        for (Movie m : movies){
+            String mGen = m.getGenres();    // genre of each movie
+            String[] mGenArr = mGen.split("\\|");   // arr of each gen in the mov
+            for (String genre : mGenArr) {
+                if (genre == ){
 
+                }
+            }
+        }
     }
 
     private void listHighestRated()
