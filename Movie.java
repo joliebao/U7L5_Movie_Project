@@ -1,3 +1,5 @@
+import java.util.Comparator;
+
 /**
  * Class that represents a single Movie object
  */
@@ -72,14 +74,13 @@ public class Movie
         return genres;
     }
 
-    public double getUserRating()
-    {
-        return userRating;
-    }
-
     public int getYear()
     {
         return year;
+    }
+
+    public double getUserRating() {
+        return userRating;
     }
 
     public int getRevenue()

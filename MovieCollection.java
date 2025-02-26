@@ -1,5 +1,3 @@
-import org.w3c.dom.ls.LSOutput;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -241,8 +239,8 @@ public class MovieCollection
         scanner.nextLine();
 
         ArrayList<Movie> byGenre = new ArrayList<Movie>();
-        for (Movie m : movies){
-            if (m.getGenres().contains(genres.get(choice - 1))){
+        for (Movie m : movies) {
+            if (m.getGenres().contains(genres.get(choice - 1))) {
                 byGenre.add(m);
             }
         }
@@ -252,8 +250,44 @@ public class MovieCollection
 
     private void listHighestRated()
     {
+        double[] ratingArr = new double[movies.size()];
+        int j = 0;
+        for (Movie m : movies){
+            ratingArr[j] = m.getUserRating();
+            j++;
+        }
 
+        Arrays.sort(ratingArr);
+
+        Movie[] top50 = new Movie[50];
+        for (int i = 0; i < 50; i++){
+            for (Movie m : movies){
+                if (m.getUserRating() == ratingArr[i]){
+                    top50[i] = m;
+                }
+            }
+        }
+
+        int k = 0;
+        for (Movie m : top50){
+            System.out.println((k+1) + ". " + m.getTitle() + " rating: " + m.getUserRating());
+        }
+
+        System.out.println();
+        System.out.println("Which movie would you like to learn more about?");
+        System.out.print("Enter number: ");
+
+        int choice = scanner.nextInt();
+        scanner.nextLine();
+
+        Movie selectedMovie = top50[choice - 1];
+
+        displayMovieInfo(selectedMovie);
+
+        System.out.println("\n ** Press Enter to Return to Main Menu **");
+        scanner.nextLine();
     }
+
 
     private void listHighestRevenue()
     {
